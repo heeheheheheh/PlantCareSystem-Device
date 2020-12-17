@@ -1,3 +1,8 @@
+/* C# Programlama Projesi
+ * 
+ *
+ */
+
 #define LDR A0
 #define SICAKLIK A1
 #define LED_KIRMIZI 9
