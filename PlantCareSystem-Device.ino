@@ -119,7 +119,7 @@ void loop(){
   digitalWrite(MOTOR_PIN_3, HIGH);
   digitalWrite(MOTOR_PIN_4,  LOW);
 
-
+/*
  //Arduinodan giden veriler
  String isikCikti = String();
  isikCikti.concat("isik");
@@ -139,7 +139,7 @@ void loop(){
  nemCikti.concat(nem);
  Serial.println(nemCikti);
 
-
+*/
 
  /*
  Serial.print("hareket");
