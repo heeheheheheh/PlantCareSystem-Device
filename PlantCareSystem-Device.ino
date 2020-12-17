@@ -120,7 +120,7 @@ void loop(){
   analogWrite(LED_YESIL, yesil);
 
   //SU MOTORU
-  analogWrite(SU_POMPASI_HIZ,  suMotorHiz);   //1. motor 255 ile tam hızda dönüyor...
+  analogWrite(SU_POMPASI_HIZ,  suMotorHiz); //1. motor 255 ile tam hızda dönüyor...
   digitalWrite(MOTOR_PIN_1, HIGH );
   digitalWrite(MOTOR_PIN_2,  LOW);  
    
