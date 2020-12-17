@@ -59,6 +59,7 @@ void setup(){
   pinMode(SU_POMPASI_HIZ, OUTPUT);
   pinMode(FAN_HIZ, OUTPUT);
   Serial.begin(9600);
+  while(!Serial);
 }
 
 void loop(){
@@ -138,15 +139,7 @@ void loop(){
  nemCikti.concat("<");
  nemCikti.concat(nem);
  Serial.println(nemCikti);
-
-
-
- /*
- Serial.print("hareket");
- Serial.print("<");
- Serial.println(hareket);
- */
-  
+   
 }
 
 void ledAyarla(int mod){
@@ -180,50 +173,3 @@ void ledAyarla(int mod){
       break;
     }
 }
-
-
-
-
-
-/* ÇÖPLÜK
-  isikMiktari = analogRead(LDR);
-  //Serial.println(isikMiktari);
-
-  
-  kirmiziMiktari = 0;
-  yesilMiktari = 255;
-  maviMiktari = 0;
-  analogWrite(LED_KIRMIZI, kirmiziMiktari);
-  analogWrite(LED_YESIL, yesilMiktari);
-  analogWrite(LED_MAVI, maviMiktari);
-  
-  
-  hareket = digitalRead(PIR);
-  //Serial.println(hareket);
-
-  if(hareket == 1){
-    digitalWrite(BUZZER, HIGH);
-  }else{
-    digitalWrite(BUZZER,LOW);  
-  }
-
-
-  
-  //sicaklik = analogRead(SICAKLIK) / 9.31;
-  //Serial.println(sicaklik);
-  //delay(10);
-  
-
-
-  analogWrite(SU_POMPASI_HIZ,  255);   //1. motor 255 ile tam hızda dönüyor...
-  digitalWrite(MOTOR_PIN_1, HIGH );
-  digitalWrite(MOTOR_PIN_2,  LOW);  
-   
-   // motor 2
-  analogWrite(FAN_HIZ,  255);  //2. motor 40 ile yavaş dönüyor...
-  digitalWrite(MOTOR_PIN_3, HIGH);
-  digitalWrite(MOTOR_PIN_4,  LOW);
-
-  nemMiktari = analogRead(NEM);
-  Serial.println(nemMiktari);
- */
