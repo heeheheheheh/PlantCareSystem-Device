@@ -1,13 +1,8 @@
-/* C# Programlama Projesi
- * 
- *
- */
-
 #define LDR A0
 #define SICAKLIK A1
-#define LED_KIRMIZI 9
+#define LED_KIRMIZI 11
 #define LED_YESIL 10
-#define LED_MAVI 11
+#define LED_MAVI 9
 #define PIR 2
 #define BUZZER 12
 #define NEM A2
@@ -22,6 +17,8 @@
 #define FAN_HIZ 6
 
 
+
+
 int kirmizi = 0;
 int yesil = 0;
 int mavi = 0;
@@ -31,6 +28,8 @@ int hareket;
 
 int nem;
 
+int okunan_deger;
+float sicaklik_gerilim;
 float sicaklik;
 
 
@@ -45,6 +44,8 @@ int buzzer = 0;
 //suMotorHiz>x
 //ledMod>0,1,2,3 0 kapali 1 kirmizi 2 mavi 3 mor
 //buzzerMod>0,1
+
+
 int mesajBufferBoyutu = 24;
 char gelenMesaj[24]; // 24 karakterlik haberleşme bufferi
 char komut[16];
@@ -64,11 +65,10 @@ void setup(){
   pinMode(SU_POMPASI_HIZ, OUTPUT);
   pinMode(FAN_HIZ, OUTPUT);
   Serial.begin(9600);
-  while(!Serial);
 }
 
 void loop(){
-
+  
  if(Serial.available() > 0){
   Serial.readString().toCharArray(gelenMesaj, mesajBufferBoyutu);
   char * ayracIsaretcisi = strtok(gelenMesaj, ">");
@@ -102,7 +102,11 @@ void loop(){
  }
 
   //Sensör okumalari
+  
   isik = analogRead(LDR);
+  okunan_deger = analogRead(SICAKLIK);
+  sicaklik_gerilim = (okunan_deger / 1023.0)*5000;
+  sicaklik = sicaklik_gerilim/10.0;
   //sicaklik = analogRead(SICAKLIK) / 9.31;
   nem = analogRead(NEM);
   hareket = digitalRead(PIR);
@@ -125,26 +129,43 @@ void loop(){
   digitalWrite(MOTOR_PIN_3, HIGH);
   digitalWrite(MOTOR_PIN_4,  LOW);
 
-
+/*
  //Arduinodan giden veriler
  String isikCikti = String();
  isikCikti.concat("isik");
  isikCikti.concat("<");
  isikCikti.concat(isik);
- Serial.println(isikCikti);
+ Serial.println(isikCikti);*/
 
+ String sicaklikCikti = String();
+ sicaklikCikti.concat("sicaklik");
+ sicaklikCikti.concat("<");
+ sicaklikCikti.concat(sicaklik);
+ Serial.println(sicaklikCikti);
+ 
  String hareketCikti = String();
  hareketCikti.concat("hareket");
  hareketCikti.concat("<");
  hareketCikti.concat(hareket);
  Serial.println(hareketCikti);
 
+
  String nemCikti = String();
  nemCikti.concat("nem");
  nemCikti.concat("<");
  nemCikti.concat(nem);
  Serial.println(nemCikti);
-   
+
+
+ /*
+if(hareket == 1)
+  {
+  buzzer = 1;
+  }else
+  {
+  buzzer = 0;
+  }
+  */
 }
 
 void ledAyarla(int mod){
@@ -154,27 +175,81 @@ void ledAyarla(int mod){
     //Mod 3 - Mor
     switch(mod){
       case 0:
-        kirmizi = 0;
-        mavi = 0;
-        yesil = 0;  
+        mavi = 255;     //KAPALI
+        kirmizi = 255;
+        yesil = 255;
       break;
-      
+           
       case 1:
-        kirmizi = 0;
-        mavi = 255;
+        mavi = 0;  //MAVİ
+        kirmizi = 255;
         yesil = 255;
       break;
       
       case 2:
-        kirmizi = 255;
-        mavi = 0;
+        mavi = 255;    //KIRMIZI
+        kirmizi = 0;
         yesil = 255;
       break;
       
       case 3:
-        kirmizi = 150;
-        mavi = 100;
+        mavi = 150;     //MOR
+        kirmizi = 100;
         yesil = 255;
       break;
+      
+      case 4:
+        kirmizi =0;  //BEYAZ
+        mavi = 0;
+        yesil = 0;  
+      break;
+      
     }
 }
+
+
+
+
+
+/* ÇÖPLÜK
+  isikMiktari = analogRead(LDR);
+  //Serial.println(isikMiktari);
+
+  
+  kirmiziMiktari = 0;
+  yesilMiktari = 255;
+  maviMiktari = 0;
+  analogWrite(LED_KIRMIZI, kirmiziMiktari);
+  analogWrite(LED_YESIL, yesilMiktari);
+  analogWrite(LED_MAVI, maviMiktari);
+  
+  
+  hareket = digitalRead(PIR);
+  //Serial.println(hareket);
+
+  if(hareket == 1){
+    digitalWrite(BUZZER, HIGH);
+  }else{
+    digitalWrite(BUZZER,LOW);  
+  }
+
+
+  
+  //sicaklik = analogRead(SICAKLIK) / 9.31;
+  //Serial.println(sicaklik);
+  //delay(10);
+  
+
+
+  analogWrite(SU_POMPASI_HIZ,  255);   //1. motor 255 ile tam hızda dönüyor...
+  digitalWrite(MOTOR_PIN_1, HIGH );
+  digitalWrite(MOTOR_PIN_2,  LOW);  
+   
+   // motor 2
+  analogWrite(FAN_HIZ,  255);  //2. motor 40 ile yavaş dönüyor...
+  digitalWrite(MOTOR_PIN_3, HIGH);
+  digitalWrite(MOTOR_PIN_4,  LOW);
+
+  nemMiktari = analogRead(NEM);
+  Serial.println(nemMiktari);
+ */
